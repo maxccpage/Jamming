@@ -6,14 +6,15 @@ class TrackList extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <div className="TrackList">
-                {/* {
-                    this.props.tracks.map(track => {
+                {
+                    this.props.tracks === undefined ? console.log('not yet') : this.props.tracks.map(track => {
                         return <Track key={track.id} track={track} />
                     })
-                } */}
+                }
             </div>
         )
     }

@@ -9,13 +9,33 @@ class App extends Component {
     super(props);
     this.state = {
       searchResults: [{
-        name: 'Monster'
+        name: 'Leave',
+        artist: 'Post Malone',
+        album: 'Stoney'
       }, {
-        artist: 'Re:action'
+        name: 'No Option',
+        artist: 'Post Malone',
+        album: 'Stoney'
       }, {
+        name: 'White Iverson',
+        artist: 'Post Malone',
+        album: 'Stoney'
+      }],
+      playlistName: 'JukeBox',
+      playlistTracks: [{
+        name: 'Monster',
+        artist: 'Reaction',
+        album: 'XC'
+      }, {
+        name: '4:06Am',
+        artist: 'Reaction',
+        album: 'XC'
+      }, {
+        name: 'Just for the Weekend',
+        artist: 'Reaction',
         album: 'XC'
       }]
-    };
+    }
   }
   render() {
     return (
@@ -25,7 +45,7 @@ class App extends Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} />
-            <Playlist />
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
