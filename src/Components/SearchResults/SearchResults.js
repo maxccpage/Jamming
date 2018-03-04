@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TrackList from '../TrackList/TrackList';
 import './SearchResults.css';
+import { PropTypes } from 'react'
 
 class SearchResults extends Component {
     constructor(props) {
