@@ -3,6 +3,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import './App.css';
+import { error } from 'util';
 
 class App extends Component {
   constructor(props) {
@@ -36,7 +37,20 @@ class App extends Component {
         album: 'XC'
       }]
     }
+    this.addTrack = this.addTrack.bind(this);
   }
+
+  addTrack(track) {
+    if (this.state.playlistTracks.includes(track)) {
+      console.log('track already in playlist')
+    } else {
+      this.state.playlistTracks.push(track);
+      this.setState({
+        playlistTracks: this.state.playlistTracks
+      })
+    }
+  }
+
   render() {
     return (
       <div>
@@ -44,7 +58,7 @@ class App extends Component {
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} />
+            <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
