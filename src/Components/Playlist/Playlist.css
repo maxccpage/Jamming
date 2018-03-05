@@ -20,6 +20,10 @@
     font-size: 1.55rem;
     color: #fff;
   }
+
+  .Playlist ::placeholder {
+    color: #fff;
+  }
   
   .Playlist-save {
     cursor: pointer;
