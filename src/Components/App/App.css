@@ -50,3 +50,7 @@ h2 {
     flex-direction: column;
   }
 }
+
+alert {
+  background-color: red;
+}

@@ -28,22 +28,7 @@ class App extends Component {
         album: 'Stoney'
       }],
       playlistName: '',
-      playlistTracks: [{
-        id: '1234567',
-        name: 'Monster',
-        artist: 'Reaction',
-        album: 'XC'
-      }, {
-        id: '12345678',
-        name: '4:06Am',
-        artist: 'Reaction',
-        album: 'XC'
-      }, {
-        id: '123456789',
-        name: 'Just for the Weekend',
-        artist: 'Reaction',
-        album: 'XC'
-      }]
+      playlistTracks: []
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -68,7 +53,7 @@ class App extends Component {
 
   addTrack(track) {
     if (this.state.playlistTracks.includes(track)) {
-      console.log('track already in playlist')
+      alert('That track is already in your playlist :)')
     } else {
       this.state.playlistTracks.push(track);
       this.setState({
@@ -79,7 +64,7 @@ class App extends Component {
 
   removeTrack(track) {
     let id = track.id;
-    const updatedPlaylist = this.state.playlistTracks.filter(track => track.id != id);
+    const updatedPlaylist = this.state.playlistTracks.filter(track => track.id !== id);
     this.setState({
       playlistTracks: updatedPlaylist
     })
@@ -89,6 +74,21 @@ class App extends Component {
     this.setState({
       playlistName: name
     })
+  }
+
+  componentDidMount() {
+    if (window.location.href.indexOf('callback') >= 0) {
+      let url = window.location.href;
+      let accessRegex = /access_token=([^&]*)/;
+      let timerRegex = /expires_in=([^&]*)/;
+      let userAccessToken = url.match(accessRegex);
+      let tokenTime = url.match(timerRegex);
+      userAccessToken = userAccessToken[1];
+      tokenTime = tokenTime[1];
+      console.log('Expires: ', tokenTime, 'Access Token : ', userAccessToken, );
+      window.setTimeout(() => userAccessToken = '', tokenTime * 1000);
+      window.history.pushState('Access Token', null, '/');
+    }
   }
 
   render() {

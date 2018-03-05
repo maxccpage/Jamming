@@ -1,5 +1,3 @@
-import { error } from "util";
-
 let userAccessToken = 'placeholder';
 let tokenTime = '';
 const redirectURI = 'http://localhost:3002/callback';
@@ -12,14 +10,6 @@ const Spotify = {
             return userAccessToken;
         } else {
             window.location.replace(`https://accounts.spotify.com/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=token`);
-        }
-        if (window.location.href.indexOf('callback')) {
-            let url = window.location.href;
-            let accessRegex = '/access_token=([^&]*)/';
-            let timerRegex = '/expires_in=([^&]*)/';
-            userAccessToken = url.match(accessRegex);
-            tokenTime = url.match(timerRegex);
-            console.log(userAccessToken);
         }
     }
 }
