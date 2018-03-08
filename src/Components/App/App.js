@@ -32,11 +32,12 @@ class App extends Component {
   }
 
   getAccessToken() {
-    if (this.state.userAccessToken !== '') {
+    if (this.state.userAccessToken) {
       let userAccessToken = this.state.userAccessToken;
       return userAccessToken;
     } else {
       let scopes = 'playlist-modify-public';
+      console.log(clientID, scopes, redirectURI);
       window.location.replace(
         `https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`
       );
