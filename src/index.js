@@ -8,12 +8,10 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 const allTheRoutes = () => {
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={App} />
-      <Route path="/callback" component={App} />
-      <Route render={() => 'Not working hoe'} />
+      <Route path="*" render={() => <Redirect to="/" />} />
     </Switch>
   </BrowserRouter>;
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<allTheRoutes />, document.getElementById('root'));
 registerServiceWorker();
