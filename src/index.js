@@ -11,7 +11,7 @@ class AllTheRoutes extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={App} />
-          <Route exact path="/callback" component={App} />
+          <Route path="/callback/" component={App} />
         </Switch>
       </BrowserRouter>
     );
