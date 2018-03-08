@@ -7,7 +7,7 @@ import './App.css';
 import { error } from 'util';
 import Spotify from '../../util/Spotify';
 
-const redirectURI = 'http://maxccpage-jammming.herokuapp.com/callback';
+const redirectURI = 'https://maxccpage-jammming.herokuapp.com/callback';
 const clientID = '28b5e49f49fa48ef996c1f8673eea5ed';
 const clientSecret = '923f57b6c2884a82a2cfef0b84b6c428';
 
