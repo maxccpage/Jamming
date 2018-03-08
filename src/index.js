@@ -11,7 +11,7 @@ class AllTheRoutes extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={App} />
-          <Route path="*" render={() => <Redirect to="/" />} />
+          <Route path="/" component={App} />
         </Switch>
       </BrowserRouter>
     );
