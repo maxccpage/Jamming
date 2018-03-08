@@ -18,5 +18,5 @@ class allTheRoutes extends Component {
   }
 }
 
-ReactDOM.render(<allTheRoutes />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
