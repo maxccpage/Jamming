@@ -5,7 +5,6 @@ import Playlist from '../Playlist/Playlist';
 import { PropTypes } from 'react';
 import './App.css';
 import { error } from 'util';
-// import Spotify from '../../util/Spotify';
 
 const redirectURI = 'https://maxccpage-jammming.herokuapp.com/callback';
 const clientID = '28b5e49f49fa48ef996c1f8673eea5ed';
