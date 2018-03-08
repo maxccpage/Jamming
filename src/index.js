@@ -5,7 +5,7 @@ import App from './Components/App/App';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-class allTheRoutes extends Component {
+class AllTheRoutes extends Component {
   render() {
     return (
       <BrowserRouter>
@@ -18,5 +18,5 @@ class allTheRoutes extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<AllTheRoutes />, document.getElementById('root'));
 registerServiceWorker();
