@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import { PropTypes } from 'react'
+import { PropTypes } from 'react';
 import './App.css';
 import { error } from 'util';
 import Spotify from '../../util/Spotify';
 
-const redirectURI = 'http://localhost:3000/callback';
+const redirectURI = 'maxccpage-jammming.herokuapp.com/callback';
 const clientID = '28b5e49f49fa48ef996c1f8673eea5ed';
 const clientSecret = '923f57b6c2884a82a2cfef0b84b6c428';
 
@@ -20,7 +20,7 @@ class App extends Component {
       playlistName: '',
       playlistTracks: [],
       userAccessToken: ''
-    }
+    };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
@@ -37,12 +37,14 @@ class App extends Component {
       return userAccessToken;
     } else {
       let scopes = 'playlist-modify-public';
-      window.location.replace(`https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`);
+      window.location.replace(
+        `https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`
+      );
     }
   }
 
   savePlaylist() {
-    console.log('im eorking')
+    console.log('im eorking');
     let trackURIs = [];
     for (let i = 0; i < this.state.playlistTracks.length; i++) {
       let uri = this.state.playlistTracks[i].uri;
@@ -52,39 +54,41 @@ class App extends Component {
     this.setState({
       playlistName: 'New Playlist',
       searchResults: []
-    })
+    });
   }
 
   addTrack(track) {
     if (this.state.playlistTracks.includes(track)) {
-      alert('That track is already in your playlist :)')
+      alert('That track is already in your playlist :)');
     } else {
       this.state.playlistTracks.push(track);
       this.setState({
         playlistTracks: this.state.playlistTracks
-      })
+      });
     }
   }
 
   removeTrack(track) {
     let id = track.id;
-    const updatedPlaylist = this.state.playlistTracks.filter(track => track.id !== id);
+    const updatedPlaylist = this.state.playlistTracks.filter(
+      track => track.id !== id
+    );
     this.setState({
       playlistTracks: updatedPlaylist
-    })
+    });
   }
 
   updatePlaylistName(name) {
     this.setState({
       playlistName: name
-    })
+    });
   }
 
   componentDidMount() {
     if (window.location.href.indexOf('callback') >= 0) {
       this.setState({
         signedIn: true
-      })
+      });
       let url = window.location.href;
       let accessRegex = /access_token=([^&]*)/;
       let timerRegex = /expires_in=([^&]*)/;
@@ -92,30 +96,35 @@ class App extends Component {
       let tokenTime = url.match(timerRegex);
       userAccessToken = userAccessToken[1];
       tokenTime = tokenTime[1];
-      console.log('Expires: ', tokenTime, 'Access Token : ', userAccessToken, );
-      window.setTimeout(() => userAccessToken = '', tokenTime * 1000);
+      console.log('Expires: ', tokenTime, 'Access Token : ', userAccessToken);
+      window.setTimeout(() => (userAccessToken = ''), tokenTime * 1000);
       window.history.pushState('Access Token', null, '/');
       this.setState({
         userAccessToken: userAccessToken
-      })
+      });
     }
-
   }
   search(term) {
     if (this.state.userAccessToken === '') {
-      alert('You must sign in to your spotify before making any searches!')
+      alert('You must sign in to your spotify before making any searches!');
     } else {
       let userAccessToken = this.state.userAccessToken;
-      return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}
-        `, {
+      return fetch(
+        `https://api.spotify.com/v1/search?type=track&q=${term}
+        `,
+        {
           headers: { Authorization: `Bearer ${userAccessToken}` }
-        }).then(tracks => {
+        }
+      )
+        .then(tracks => {
           let jsonResponse = tracks.json();
           return jsonResponse;
-        }).then(jsonResponse => {
+        })
+        .then(jsonResponse => {
           let trackArray = jsonResponse.tracks.items;
           return trackArray;
-        }).then(trackArray => {
+        })
+        .then(trackArray => {
           if (trackArray) {
             return trackArray.map(track => ({
               id: track.id,
@@ -125,96 +134,145 @@ class App extends Component {
               uri: track.uri
             }));
           }
-        }).catch(err => {
-          console.log(err);
         })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 
   searchNow(term) {
     this.search(term).then(tracks => {
-      this.setState({ searchResults: tracks })
-    })
+      this.setState({ searchResults: tracks });
+    });
   }
 
   savePlaylistNow(playlistName, trackURIs) {
     if (!playlistName || trackURIs === '') {
-      return
+      return;
     } else {
-      const something = {
-        "uris": [`${trackURIs}`]
-      }
-      console.log('Some ting wong', something);
       let currentUserAccessToken = this.state.userAccessToken;
-      let headers = { 'Authorization': 'Bearer ' + currentUserAccessToken }
+      let headers = { Authorization: 'Bearer ' + currentUserAccessToken };
       let userId;
-      fetch('https://api.spotify.com/v1/me', { headers: headers }).then(user => {
-        let jsonResponse = user.json();
-        return jsonResponse;
-      }).then(jsonResponse => {
-        userId = jsonResponse.id;
-        return userId;
-      }).then((userId) => {
-        fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-          headers: {
-            'Authorization': 'Bearer ' + currentUserAccessToken
-          },
-          contentType: 'application/json',
-          method: 'POST',
-          body: JSON.stringify({
-            "name": `${playlistName}`,
-            "description": `You made this playlist with Jammming, a ReactJS web application built by Max Page`
-          })
-        }).then(playlist => {
-          return playlist.json();
-        }).then(playlist => {
-          let playlistId = playlist.id;
-          console.log('playlistId : ', playlistId);
-          return playlistId;
-        }).then((playlistId) => {
-          fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+      fetch('https://api.spotify.com/v1/me', { headers: headers })
+        .then(user => {
+          let jsonResponse = user.json();
+          return jsonResponse;
+        })
+        .then(jsonResponse => {
+          userId = jsonResponse.id;
+          return userId;
+        })
+        .then(userId => {
+          fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
             headers: {
-              'Authorization': 'Bearer ' + currentUserAccessToken
+              Authorization: 'Bearer ' + currentUserAccessToken
             },
             contentType: 'application/json',
             method: 'POST',
-            body: {
-              "uris": [`${trackURIs}`]
-            }
-          }).then(success => {
-            return success;
-          }).catch(err => {
-            console.log('lol your trash', err);
+            body: JSON.stringify({
+              name: `${playlistName}`,
+              description: `You made this playlist with Jammming, a ReactJS web application built by Max Page`
+            })
           })
-        }).catch((err) => {
-          console.log('Down here', err);
-        })
-      })
+            .then(playlist => {
+              return playlist.json();
+            })
+            .then(playlist => {
+              let playlistId = playlist.id;
+              console.log('playlistId : ', playlistId);
+              return playlistId;
+            })
+            .then(playlistId => {
+              fetch(
+                `https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`,
+                {
+                  headers: {
+                    Authorization: 'Bearer ' + currentUserAccessToken
+                  },
+                  contentType: 'application/json',
+                  method: 'POST',
+                  body: JSON.stringify({
+                    uris: trackURIs
+                  })
+                }
+              )
+                .then(success => {
+                  return success;
+                })
+                .catch(err => {
+                  console.log('lol your trash', err);
+                });
+            })
+            .catch(err => {
+              console.log('Down here', err);
+            });
+        });
     }
   }
 
-
   render() {
     let conditionalClass = {
-      one: "App",
-      two: "App-Sign-In"
+      one: 'App',
+      two: 'App-Sign-In'
     };
 
     return (
       <div>
-        <h1>Ja<span className="highlight">mmm</span>ing</h1>
-        <div className={this.state.signedIn === false ? conditionalClass.two : conditionalClass.one}>
-          {this.state.signedIn === false ? <p> Sign in to your Spotify Account to start using JAMMMING </p> : ''}
-          {this.state.signedIn === false ? <button className="Sign-In" onClick={this.getAccessToken}> Sign In </button> : ''}
-          {this.state.signedIn === true ? <SearchBar onSearch={this.searchNow} /> : ''}
+        <h1>
+          Ja<span className="highlight">mmm</span>ing
+        </h1>
+        <div
+          className={
+            this.state.signedIn === false
+              ? conditionalClass.two
+              : conditionalClass.one
+          }
+        >
+          {this.state.signedIn === false ? (
+            <p> Sign in to your Spotify Account to start using JAMMMING </p>
+          ) : (
+            ''
+          )}
+          {this.state.signedIn === false ? (
+            <button className="Sign-In" onClick={this.getAccessToken}>
+              {' '}
+              Sign In{' '}
+            </button>
+          ) : (
+            ''
+          )}
+          {this.state.signedIn === true ? (
+            <SearchBar onSearch={this.searchNow} />
+          ) : (
+            ''
+          )}
           <div className="App-playlist">
-            {this.state.signedIn === true ? <SearchResults on onAdd={this.addTrack} searchResults={this.state.searchResults} /> : ''}
-            {this.state.signedIn === true ? <Playlist onSave={this.savePlaylist} onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} /> : ''}
+            {this.state.signedIn === true ? (
+              <SearchResults
+                on
+                onAdd={this.addTrack}
+                searchResults={this.state.searchResults}
+              />
+            ) : (
+              ''
+            )}
+            {this.state.signedIn === true ? (
+              <Playlist
+                onSave={this.savePlaylist}
+                onNameChange={this.updatePlaylistName}
+                onRemove={this.removeTrack}
+                playlistName={this.state.playlistName}
+                playlistTracks={this.state.playlistTracks}
+              />
+            ) : (
+              ''
+            )}
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     );
   }
 }
 
-export default App; 
+export default App;
