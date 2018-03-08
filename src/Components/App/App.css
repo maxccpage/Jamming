@@ -9,7 +9,8 @@ html {
 }
 
 h1 {
-  padding: .77rem 0;
+  margin: 0;
+  padding: 0.77rem 0;
   background-color: #010c3f;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -69,22 +70,22 @@ h2 {
   margin-top: 5%;
   width: 30%;
   color: white;
-  padding: .77rem 0;
+  padding: 0.77rem 0;
   border-radius: 54px;
   background-color: #010c3f;
   text-align: center;
   font-size: 1rem;
-  transition: background-color .25s;
+  transition: background-color 0.25s;
   text-transform: uppercase;
 }
 
 .App-Sign-In p {
   font-size: 30px;
-  line-height: 1.2; 
+  line-height: 1.2;
   text-transform: capitalize;
 }
 
-@media only screen and (max-width: 1024px){
+@media only screen and (max-width: 1024px) {
   .App-Sign-In p {
     font-size: 30px;
     text-align: center;
@@ -97,7 +98,7 @@ h2 {
 }
 
 .App button:hover {
-  background-color: rgba(108, 65, 233, .7);
+  background-color: rgba(108, 65, 233, 0.7);
 }
 
 @media only screen and (max-width: 1020px) {
