@@ -10,7 +10,7 @@ class allTheRoutes extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={App} />
+          <Route exact path="/" component={App} />
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </BrowserRouter>
