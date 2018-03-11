@@ -85,7 +85,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (window.location.href.indexOf('callback') >= 0) {
+    if (window.location.href.indexOf('access') >= 0) {
       let url = window.location.href;
       let accessRegex = /access_token=([^&]*)/;
       let timerRegex = /expires_in=([^&]*)/;
