@@ -37,6 +37,9 @@ class App extends Component {
     } else {
       let scopes = 'playlist-modify-public';
       console.log(clientID, scopes, redirectURI);
+      this.setState({
+        signedIn: true
+      });
       window.location.replace(
         `https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`
       );
@@ -85,7 +88,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (window.location.href.indexOf('access') >= 0) {
+    if (this.state.signedIn === true) {
       let url = window.location.href;
       let accessRegex = /access_token=([^&]*)/;
       let timerRegex = /expires_in=([^&]*)/;
