@@ -89,7 +89,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (this.state.signedIn === true) {
+    if ((this.state.signedIn === true, this.state.userAccessToken === '')) {
       let url = window.location.href;
       let accessRegex = /access_token=([^&]*)/;
       let timerRegex = /expires_in=([^&]*)/;
