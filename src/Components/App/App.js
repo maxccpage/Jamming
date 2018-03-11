@@ -37,13 +37,13 @@ class App extends Component {
     } else {
       let scopes = 'playlist-modify-public';
       console.log(clientID, scopes, redirectURI);
+      this.setState({
+        signedIn: true
+      });
       window.location.replace(
         `https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`
       );
       console.log('now');
-      this.setState({
-        signedIn: true
-      });
     }
   }
 
@@ -109,6 +109,9 @@ class App extends Component {
       );
       window.history.pushState('Access Token', null, '/');
     }
+    this.setState({
+      signedIn: true
+    });
   }
 
   search(term) {
