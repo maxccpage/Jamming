@@ -6,7 +6,7 @@ import { PropTypes } from 'react';
 import './App.css';
 import { error } from 'util';
 
-const redirectURI = 'http://maxccpage-jammming2018.surge.sh/callback/';
+const redirectURI = 'http://maxccpage-jammming2018.surge.sh';
 const clientID = '28b5e49f49fa48ef996c1f8673eea5ed';
 const clientSecret = '80b09a350e164ea7924d4d5b71bad96d';
 
@@ -85,23 +85,25 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (window.location.href.indexOf('callback') >= 0) {
-      this.setState({
-        signedIn: true
-      });
+    if (window.location.href.indexOf('access_token') >= 0) {
       let url = window.location.href;
       let accessRegex = /access_token=([^&]*)/;
       let timerRegex = /expires_in=([^&]*)/;
       let userAccessToken = url.match(accessRegex);
       let tokenTime = url.match(timerRegex);
-      userAccessToken = userAccessToken[1];
+      this.setState({ userAccessToken: userAccessToken[1] });
       tokenTime = tokenTime[1];
-      console.log('Expires: ', tokenTime, 'Access Token : ', userAccessToken);
-      window.setTimeout(() => (userAccessToken = ''), tokenTime * 1000);
+      console.log(
+        'Expires: ',
+        tokenTime,
+        'Access Token : ',
+        this.state.userAccessToken
+      );
+      window.setTimeout(
+        () => (this.state.userAccessToken = ''),
+        tokenTime * 1000
+      );
       window.history.pushState('Access Token', null, '/');
-      this.setState({
-        userAccessToken: userAccessToken
-      });
     }
   }
   search(term) {
