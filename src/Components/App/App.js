@@ -53,8 +53,9 @@ class App extends Component {
     }
     this.savePlaylistNow(this.state.playlistName, trackURIs);
     this.setState({
-      playlistName: 'New Playlist',
-      searchResults: []
+      playlistName: '',
+      searchResults: [],
+      playlistTracks: []
     });
   }
 
