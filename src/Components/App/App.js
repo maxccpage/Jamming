@@ -6,7 +6,7 @@ import { PropTypes } from 'react';
 import './App.css';
 import { error } from 'util';
 
-const redirectURI = 'http://maxccpage-jammming2018.surge.sh';
+const redirectURI = 'http://maxccpage-jammming.herokuapp.com';
 const clientID = '28b5e49f49fa48ef996c1f8673eea5ed';
 const clientSecret = '80b09a350e164ea7924d4d5b71bad96d';
 
