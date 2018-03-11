@@ -37,12 +37,12 @@ class App extends Component {
     } else {
       let scopes = 'playlist-modify-public';
       console.log(clientID, scopes, redirectURI);
-      this.setState({
-        signedIn: true
-      });
       window.location.replace(
         `https://accounts.spotify.com/authorize?client_id=${clientID}&scope=${scopes}&redirect_uri=${redirectURI}&response_type=token`
       );
+      this.setState({
+        signedIn: true
+      });
     }
   }
 
