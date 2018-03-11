@@ -88,26 +88,26 @@ class App extends Component {
   }
 
   componentDidMount() {
-      let url = window.location.href;
-      let accessRegex = /access_token=([^&]*)/;
-      let timerRegex = /expires_in=([^&]*)/;
-      let userAccessToken = url.match(accessRegex);
-      let tokenTime = url.match(timerRegex);
-      this.setState({ userAccessToken: userAccessToken[1] });
-      tokenTime = tokenTime[1];
-      console.log(
-        'Expires: ',
-        tokenTime,
-        'Access Token : ',
-        this.state.userAccessToken
-      );
-      window.setTimeout(
-        () => (this.state.userAccessToken = ''),
-        tokenTime * 1000
-      );
-      window.history.pushState('Access Token', null, '/');
-    }
+    let url = window.location.href;
+    let accessRegex = /access_token=([^&]*)/;
+    let timerRegex = /expires_in=([^&]*)/;
+    let userAccessToken = url.match(accessRegex);
+    let tokenTime = url.match(timerRegex);
+    this.setState({ userAccessToken: userAccessToken[1] });
+    tokenTime = tokenTime[1];
+    console.log(
+      'Expires: ',
+      tokenTime,
+      'Access Token : ',
+      this.state.userAccessToken
+    );
+    window.setTimeout(
+      () => (this.state.userAccessToken = ''),
+      tokenTime * 1000
+    );
+    window.history.pushState('Access Token', null, '/');
   }
+
   search(term) {
     if (this.state.userAccessToken === '') {
       alert('You must sign in to your spotify before making any searches!');
