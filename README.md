@@ -1,6 +1,6 @@
 ![](./homepage.png)
 
-<a src="maxccpage-jammming.herokuapp.com">Visit Jammming Here</a>
+[Vist Jammming Here](https://maxccpage-jammming.herokuapp.com)
 
 ### Summary
 
